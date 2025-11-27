@@ -1,7 +1,7 @@
 package com.koerber.assignment.inventory.entity;
 
 public enum ProductType {
-    MOBILE,
+    FOOD,
     CLOTHING,
     GROCERY
 }
