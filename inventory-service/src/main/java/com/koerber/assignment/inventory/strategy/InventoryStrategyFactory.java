@@ -1,6 +1,7 @@
 package com.koerber.assignment.inventory.strategy;
 
 import com.koerber.assignment.inventory.entity.ProductType;
+import com.koerber.assignment.inventory.exception.InvalidStrategyException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +23,6 @@ public class InventoryStrategyFactory{
         return strategies.stream()
                 .filter(strategy -> strategy.getSupportedType() == type)
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("No strategy found for type: " + type));
+                .orElseThrow(() -> new InvalidStrategyException("No strategy found for type: " + type));
     }
 }

@@ -8,7 +8,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Version;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -22,9 +21,6 @@ public class Batch {
 
     private Integer quantity;
     private LocalDate expiryDate;
-
-    @Version
-    private Integer version;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")

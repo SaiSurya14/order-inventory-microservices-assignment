@@ -4,6 +4,7 @@ package com.koerber.assignment.inventory.Controller;
 import com.koerber.assignment.inventory.dto.InventoryUpdateRequest;
 import com.koerber.assignment.inventory.entity.Batch;
 import com.koerber.assignment.inventory.service.InventoryService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/inventory")
+@Slf4j
 public class InventoryController {
     private final InventoryService inventoryService;
 
@@ -32,6 +34,7 @@ public class InventoryController {
     @PostMapping("/update")
     public ResponseEntity<?> updateInventory(@RequestBody InventoryUpdateRequest request) {
         try {
+            log.info("InventoryUpdateRequest received for id: {} and type: {}", request.getProductId(), request.getProductType());
             inventoryService.updateInventory(request);
             return ResponseEntity.ok(Map.of("status", "SUCCESS", "message", "Inventory updated"));
         } catch (Exception e) {

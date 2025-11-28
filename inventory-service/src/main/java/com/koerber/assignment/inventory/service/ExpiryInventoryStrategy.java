@@ -2,6 +2,7 @@ package com.koerber.assignment.inventory.service;
 
 import com.koerber.assignment.inventory.entity.Batch;
 import com.koerber.assignment.inventory.entity.ProductType;
+import com.koerber.assignment.inventory.exception.InsufficientStockException;
 import com.koerber.assignment.inventory.strategy.InventoryStrategy;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +15,7 @@ public class ExpiryInventoryStrategy implements InventoryStrategy {
 
     @Override
     public ProductType getSupportedType() {
-        return ProductType.MOBILE;
+        return ProductType.FOOD;
     }
 
     @Override
@@ -44,7 +45,7 @@ public class ExpiryInventoryStrategy implements InventoryStrategy {
         }
 
         if (remaining > 0) {
-            throw new RuntimeException("Insufficient Stock! Short by: " + remaining);
+            throw new InsufficientStockException("Insufficient Stock! Short by: " + remaining);
         }
     }
 }
