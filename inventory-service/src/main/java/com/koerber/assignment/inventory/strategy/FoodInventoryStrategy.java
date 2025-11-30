@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class ExpiryInventoryStrategy implements InventoryStrategy {
+public class FoodInventoryStrategy implements InventoryStrategy {
 
     @Override
     public ProductType getSupportedType() {
