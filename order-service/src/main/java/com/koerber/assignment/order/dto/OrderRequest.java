@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class OrderRequest {
     private String productId;
-    private String productType; // Needed for Inventory Factory
+    private String productType;
+    private String productName;
     private Integer quantity;
 }

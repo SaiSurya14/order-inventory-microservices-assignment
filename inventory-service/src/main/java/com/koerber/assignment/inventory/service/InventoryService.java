@@ -1,9 +1,11 @@
 package com.koerber.assignment.inventory.service;
 
+import com.koerber.assignment.inventory.dto.InventoryLoadRequest;
 import com.koerber.assignment.inventory.dto.InventoryUpdateRequest;
 import com.koerber.assignment.inventory.entity.Batch;
 import com.koerber.assignment.inventory.entity.Product;
 import com.koerber.assignment.inventory.exception.ProductNotFoundException;
+import com.koerber.assignment.inventory.mapper.InventoryLoadMapper;
 import com.koerber.assignment.inventory.repository.BatchRepository;
 import com.koerber.assignment.inventory.repository.ProductRepository;
 import com.koerber.assignment.inventory.strategy.InventoryStrategy;
@@ -20,11 +22,13 @@ public class InventoryService {
     private final ProductRepository productRepository;
     private final BatchRepository batchRepository;
     private final InventoryStrategyFactory strategyFactory;
+    private final InventoryLoadMapper inventoryLoadMapper;
 
-    public InventoryService(ProductRepository productRepository, BatchRepository batchRepository, InventoryStrategyFactory strategyFactory) {
+    public InventoryService(ProductRepository productRepository, BatchRepository batchRepository, InventoryStrategyFactory strategyFactory, InventoryLoadMapper inventoryLoadMapper) {
         this.productRepository = productRepository;
         this.batchRepository = batchRepository;
         this.strategyFactory = strategyFactory;
+        this.inventoryLoadMapper = inventoryLoadMapper;
     }
 
     @Transactional
@@ -48,5 +52,25 @@ public class InventoryService {
 
         InventoryStrategy strategy = strategyFactory.getStrategy(product.getProductType());
         return strategy.sortBatches(batchRepository.findByProduct(product));
+    }
+
+    @Transactional
+    public void loadInventory(List<InventoryLoadRequest> requests) {
+
+        for (InventoryLoadRequest request : requests) {
+            if (productRepository.existsByProductId(request.getProductId())) {
+                log.warn("Product {} already exists. Skipping this load. ", request.getProductId());
+                continue;
+            }
+
+            Product product = inventoryLoadMapper.toProduct(request);
+            Product savedProduct = productRepository.save(product);
+
+            List<Batch> batchList = inventoryLoadMapper.toBatchList(request.getBatches());
+            batchList.forEach(batch -> batch.setProduct(savedProduct));
+            batchRepository.saveAll(batchList);
+
+            log.info("Loaded {} batches for new product: {}", batchList.size(), request.getProductId());
+        }
     }
 }

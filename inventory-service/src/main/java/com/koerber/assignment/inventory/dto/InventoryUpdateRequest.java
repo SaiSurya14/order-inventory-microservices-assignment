@@ -1,11 +1,12 @@
 package com.koerber.assignment.inventory.dto;
 
-import com.koerber.assignment.inventory.entity.ProductType;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class InventoryUpdateRequest {
     private String productId;
-    private ProductType productType;
+    private String productType;
     private Integer quantity;
 }

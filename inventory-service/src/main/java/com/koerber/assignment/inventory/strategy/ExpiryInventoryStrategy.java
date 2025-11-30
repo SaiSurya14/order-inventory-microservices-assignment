@@ -1,9 +1,8 @@
-package com.koerber.assignment.inventory.service;
+package com.koerber.assignment.inventory.strategy;
 
 import com.koerber.assignment.inventory.entity.Batch;
 import com.koerber.assignment.inventory.entity.ProductType;
 import com.koerber.assignment.inventory.exception.InsufficientStockException;
-import com.koerber.assignment.inventory.strategy.InventoryStrategy;
 import org.springframework.stereotype.Component;
 
 import java.util.Comparator;
@@ -38,7 +37,7 @@ public class ExpiryInventoryStrategy implements InventoryStrategy {
                     batch.setQuantity(available - remaining);
                     remaining = 0;
                 } else {
-                    batch.setQuantity(0); // Drain this batch
+                    batch.setQuantity(0);
                     remaining -= available;
                 }
             }

@@ -5,7 +5,6 @@ import com.koerber.assignment.order.dto.OrderRequest;
 import com.koerber.assignment.order.dto.OrderResponse;
 import com.koerber.assignment.order.entity.OrderStatus;
 import com.koerber.assignment.order.entity.Orders;
-import com.koerber.assignment.order.exceptions.InsufficientStockException;
 import com.koerber.assignment.order.mapper.OrderMapper;
 import com.koerber.assignment.order.repository.OrderRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +39,7 @@ public class OrderService {
             order.setFailureReason("Insufficient Stock or Invalid Product");
             order.setOrderId(UUID.randomUUID());
             orderRepository.save(order);
-            throw new InsufficientStockException("Order Failed: Insufficient Stock");
+            return orderMapper.toResponse(order, "Insufficient Stock or Invalid Product");
         }
 
         order.setStatus(OrderStatus.CONFIRMED);

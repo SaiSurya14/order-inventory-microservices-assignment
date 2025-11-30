@@ -12,6 +12,9 @@ public interface OrderMapper {
     @Mapping(target = "status", constant = "PENDING")
     @Mapping(target = "orderDate", expression = "java(java.time.LocalDateTime.now())")
     @Mapping(target = "failureReason", ignore = true)
+    @Mapping(target = "productType", source = "productType")
+    @Mapping(target = "productId", source = "productId")
+    @Mapping(target = "quantity", source = "quantity")
     Orders toEntity(OrderRequest request);
 
     @Mapping(target = "orderId", source = "order.orderId")

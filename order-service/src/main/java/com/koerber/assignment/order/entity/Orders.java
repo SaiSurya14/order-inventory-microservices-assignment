@@ -20,6 +20,7 @@ public class Orders {
     private Long id;
 
     private UUID orderId;
+
     private String productId;
     private String productType;
     private Integer quantity;
