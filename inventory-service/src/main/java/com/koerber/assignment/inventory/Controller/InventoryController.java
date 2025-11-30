@@ -1,7 +1,7 @@
 package com.koerber.assignment.inventory.Controller;
 
 
-import com.koerber.assignment.inventory.dto.InventoryLoadRequest;
+import com.koerber.assignment.inventory.dto.InventoryUpdateTempRequest;
 import com.koerber.assignment.inventory.dto.InventoryUpdateRequest;
 import com.koerber.assignment.inventory.entity.Batch;
 import com.koerber.assignment.inventory.service.InventoryService;
@@ -44,7 +44,7 @@ public class InventoryController {
     }
 
     @PutMapping("/loadInventory")
-    public ResponseEntity<String> loadInventory(@RequestBody List<InventoryLoadRequest> requests) {
+    public ResponseEntity<String> loadInventory(@RequestBody List<InventoryUpdateTempRequest> requests) {
         try {
             inventoryService.loadInventory(requests);
             return ResponseEntity.ok("Successfully loaded initial inventory data.");

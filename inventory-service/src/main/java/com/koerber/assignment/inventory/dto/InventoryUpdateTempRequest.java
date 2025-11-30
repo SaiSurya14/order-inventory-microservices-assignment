@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Data
-public class InventoryLoadRequest {
+public class InventoryUpdateTempRequest {
 
     private String productId;
     private String productName;

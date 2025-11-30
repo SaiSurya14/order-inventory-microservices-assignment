@@ -1,6 +1,6 @@
 package com.koerber.assignment.inventory.service;
 
-import com.koerber.assignment.inventory.dto.InventoryLoadRequest;
+import com.koerber.assignment.inventory.dto.InventoryUpdateTempRequest;
 import com.koerber.assignment.inventory.dto.InventoryUpdateRequest;
 import com.koerber.assignment.inventory.entity.Batch;
 import com.koerber.assignment.inventory.entity.Product;
@@ -55,15 +55,16 @@ public class InventoryService {
     }
 
     @Transactional
-    public void loadInventory(List<InventoryLoadRequest> requests) {
+    public void loadInventory(List<InventoryUpdateTempRequest> requests) {
 
-        for (InventoryLoadRequest request : requests) {
+        for (InventoryUpdateTempRequest request : requests) {
             if (productRepository.existsByProductId(request.getProductId())) {
                 log.warn("Product {} already exists. Skipping this load. ", request.getProductId());
                 continue;
             }
 
             Product product = inventoryLoadMapper.toProduct(request);
+            log.info("ENTITY productId after mapping = {}", product.getProductId());
             Product savedProduct = productRepository.save(product);
 
             List<Batch> batchList = inventoryLoadMapper.toBatchList(request.getBatches());
